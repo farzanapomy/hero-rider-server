@@ -23,8 +23,8 @@ async function run() {
 
         app.post('/riders', async (req, res) => {
             const rider = req.body;
-            const result = await riderCollections.insertOne(rider)
-            console.log(result);
+            const result = await riderCollections.insertOne(rider);
+            // console.log(result);
             res.json(result);
         })
         console.log('database connected');
