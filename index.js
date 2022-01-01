@@ -82,18 +82,25 @@ async function run() {
 
 
 
-        //   search rider 
+        //   search rider and learner
 
 
 
         app.get("/searchRiders", async (req, res) => {
             const search = req.query.search;
-            const title = {
-                title: { search: search }
-            }
-            console.log(title);
-            const query =  riderCollections.find(title);
-            const result=await query.toArray()
+            const result = await riderCollections.find({
+                name: { $regex: search }
+            }).toArray();
+            console.log(result);
+            res.json(result);
+        });
+
+
+        app.get("/searchLearners", async (req, res) => {
+            const search = req.query.search;
+            const result = await learnerCollections.find({
+                name: { $regex: search }
+            }).toArray();
             console.log(result);
             res.json(result);
         });
