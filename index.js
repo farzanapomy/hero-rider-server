@@ -20,6 +20,11 @@ async function run() {
         await client.connect();
         const database = client.db('hero-rider')
         const riderCollections = database.collection('riders');
+        const learnerCollections = database.collection('learner');
+
+
+        // ================  rider section   ===============
+
 
         app.post('/riders', async (req, res) => {
             const rider = req.body;
@@ -35,8 +40,6 @@ async function run() {
         })
 
 
-
-
         app.get('/riders/:email', async (req, res) => {
             const email = req.params.email;
             const newEmail = ({ email: email });
@@ -45,6 +48,43 @@ async function run() {
             const result = await cursor.toArray();
             res.send(result);
         })
+
+
+          // ================ learner section   ===============
+
+
+          app.post('/LearnerDriving', async (req, res) => {
+            const learner = req.body;
+            const result = await learnerCollections.insertOne(learner);
+            console.log(learner);
+            res.json(result);
+        })
+
+        app.get('/LearnerDriving',async(req,res)=>{
+            const cursor=learnerCollections.find({});
+            const result = await cursor.toArray();
+            res.json(result);
+        })
+
+
+        app.get('/LearnerDriving/:email', async (req, res) => {
+            const email = req.params.email;
+            const newEmail = ({ email: email });
+            console.log(newEmail);
+            const cursor = learnerCollections.find(newEmail);
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+
+
+
+
+
+
+
+
+
 
 
         console.log('database connected');
