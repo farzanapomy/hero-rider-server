@@ -21,6 +21,7 @@ async function run() {
         const database = client.db('hero-rider')
         const riderCollections = database.collection('riders');
         const learnerCollections = database.collection('learner');
+        const userCollection = database.collection('users')
 
 
         // ================  rider section   ===============
@@ -33,8 +34,8 @@ async function run() {
             res.json(result);
         })
 
-        app.get('/allRider',async(req,res)=>{
-            const cursor=riderCollections.find({});
+        app.get('/allRider', async (req, res) => {
+            const cursor = riderCollections.find({});
             const result = await cursor.toArray();
             res.json(result);
         })
@@ -50,18 +51,18 @@ async function run() {
         })
 
 
-          // ================ learner section   ===============
+        // ================ learner section   ===============
 
 
-          app.post('/LearnerDriving', async (req, res) => {
+        app.post('/LearnerDriving', async (req, res) => {
             const learner = req.body;
             const result = await learnerCollections.insertOne(learner);
             console.log(learner);
             res.json(result);
         })
 
-        app.get('/LearnerDriving',async(req,res)=>{
-            const cursor=learnerCollections.find({});
+        app.get('/LearnerDriving', async (req, res) => {
+            const cursor = learnerCollections.find({});
             const result = await cursor.toArray();
             res.json(result);
         })
@@ -75,10 +76,30 @@ async function run() {
             const result = await cursor.toArray();
             res.send(result);
         })
+        
+        
+
+        // ================ create user section   ===============
 
 
+        
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            console.log(user)
+            const result = await userCollection.insertOne(user);
+            res.json(result)
+        })
 
-
+        app.get('/users/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email: email };
+            const user = await userCollection.findOne(query);
+            let isAdmin = false
+            if (user?.role == 'admin') {
+                isAdmin = true;
+            }
+            res.json({ admin: isAdmin });
+        })
 
 
 
