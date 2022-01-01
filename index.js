@@ -34,11 +34,15 @@ async function run() {
             res.json(result);
         })
 
-        // app.get('/allRider', async (req, res) => {
-        //     const cursor = riderCollections.find({});
-        //     const result = await cursor.toArray();
-        //     res.json(result);
-        // })
+        app.get('/allRider', async (req, res) => {
+            const cursor = riderCollections.find({});
+            const result = await cursor.toArray();
+            const count = await cursor.count();
+            res.json({
+                count,
+                result
+            });
+        })
 
 
         app.get('/riders/:email', async (req, res) => {
@@ -61,11 +65,15 @@ async function run() {
             res.json(result);
         })
 
-        // app.get('/LearnerDriving', async (req, res) => {
-        //     const cursor = learnerCollections.find({});
-        //     const result = await cursor.toArray();
-        //     res.json(result);
-        // })
+        app.get('/LearnerDriving', async (req, res) => {
+            const cursor = learnerCollections.find({});
+            const result = await cursor.toArray();
+            const count = await cursor.count();
+            res.json({
+                count,
+                result
+            });
+        })
 
 
         app.get('/Learners/:email', async (req, res) => {
@@ -88,9 +96,11 @@ async function run() {
 
         app.get("/searchRiders", async (req, res) => {
             const search = req.query.search;
-            const result = await riderCollections.find({
+            const cursor = riderCollections.find({
                 name: { $regex: search }
-            }).toArray();
+            })
+            const result = await (await cursor.toArray()).toLowercase()
+
             console.log(result);
             res.json(result);
         });
