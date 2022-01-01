@@ -24,9 +24,29 @@ async function run() {
         app.post('/riders', async (req, res) => {
             const rider = req.body;
             const result = await riderCollections.insertOne(rider);
-            // console.log(result);
+            console.log(rider);
             res.json(result);
         })
+
+        app.get('/allRider',async(req,res)=>{
+            const cursor=riderCollections.find({});
+            const result = await cursor.toArray();
+            res.json(result);
+        })
+
+
+
+
+        app.get('/riders/:email', async (req, res) => {
+            const email = req.params.email;
+            const newEmail = ({ email: email });
+            console.log(newEmail);
+            const cursor = riderCollections.find(newEmail);
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+
         console.log('database connected');
 
 
