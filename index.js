@@ -67,7 +67,7 @@ async function run() {
         })
 
 
-        app.get('/LearnerDriving/:email', async (req, res) => {
+        app.get('/Learners/:email', async (req, res) => {
             const email = req.params.email;
             const newEmail = ({ email: email });
             console.log(newEmail);
