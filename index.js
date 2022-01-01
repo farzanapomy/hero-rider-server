@@ -76,13 +76,13 @@ async function run() {
             const result = await cursor.toArray();
             res.send(result);
         })
-        
-        
+
+
 
         // ================ create user section   ===============
 
 
-        
+
         app.post('/users', async (req, res) => {
             const user = req.body;
             console.log(user)
@@ -99,6 +99,16 @@ async function run() {
                 isAdmin = true;
             }
             res.json({ admin: isAdmin });
+        })
+
+
+        app.put('/users/makeAdmin', async (req, res) => {
+            const user = req.body;
+            const filter = { email: user.email };
+            console.log(filter);
+            const updateDoc = { $set: { role: 'admin' } };
+            const result = await userCollection.updateOne(filter, updateDoc);
+            res.send(result);
         })
 
 
