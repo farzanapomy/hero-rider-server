@@ -34,11 +34,11 @@ async function run() {
             res.json(result);
         })
 
-        app.get('/allRider', async (req, res) => {
-            const cursor = riderCollections.find({});
-            const result = await cursor.toArray();
-            res.json(result);
-        })
+        // app.get('/allRider', async (req, res) => {
+        //     const cursor = riderCollections.find({});
+        //     const result = await cursor.toArray();
+        //     res.json(result);
+        // })
 
 
         app.get('/riders/:email', async (req, res) => {
@@ -61,11 +61,11 @@ async function run() {
             res.json(result);
         })
 
-        app.get('/LearnerDriving', async (req, res) => {
-            const cursor = learnerCollections.find({});
-            const result = await cursor.toArray();
-            res.json(result);
-        })
+        // app.get('/LearnerDriving', async (req, res) => {
+        //     const cursor = learnerCollections.find({});
+        //     const result = await cursor.toArray();
+        //     res.json(result);
+        // })
 
 
         app.get('/Learners/:email', async (req, res) => {
@@ -76,6 +76,36 @@ async function run() {
             const result = await cursor.toArray();
             res.send(result);
         })
+
+
+
+
+
+
+        //   search rider 
+
+
+
+        app.get("/searchRiders", async (req, res) => {
+            const search = req.query.search;
+            const title = {
+                title: { search: search }
+            }
+            console.log(title);
+            const query =  riderCollections.find(title);
+            const result=await query.toArray()
+            console.log(result);
+            res.json(result);
+        });
+
+
+
+
+
+
+
+
+
 
 
 
